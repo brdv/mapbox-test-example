@@ -1,14 +1,11 @@
 import React from 'react';
 
-import { render, screen } from '@testing-library/react';
+import ReactDOM from 'react-dom';
 
 import App from 'App';
 
-describe('App:', () => {
-  it('renders the text', () => {
-    render(<App />);
-    const text = screen.getByText('hello world');
+it('renders without crashing', () => {
+  const container = document.createElement('div');
 
-    expect(text).toBeInTheDocument();
-  });
+  ReactDOM.render(<App />, container);
 });
