@@ -1,0 +1,55 @@
+name: Bulding & Testing & Linting
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set-up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Set CI environment variable
+        run: |
+          echo "SKIP_PREFLIGHT_CHECK=true" >> $GITHUB_ENV
+          echo "CI=true" >> $GITHUB_ENV
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache yarn
+        id: yarn-cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nodemodules-
+      - name: Install
+        if: |
+          steps.cache-yarn-cache.outputs.cache-hit != 'true' ||
+          steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: |
+          yarn install
+      - name: Lint & Prettier
+        run: |
+          CI=true yarn eslint './**/*.{js,ts,tsx}'
+          CI=true yarn prettier './**/*.{js,jsx,ts,tsx,css,scss,md,json}' --check --config ./.prettierrc
+      - name: Test and build
+        run: |
+          CI=true yarn test --coverage --watchAll=false --passWithNoTests
+          yarn run build
