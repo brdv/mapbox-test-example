@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { LegacyRef, useEffect, useRef, useState } from 'react';
 
 import mapboxgl from 'mapbox-gl';
 
@@ -8,12 +8,14 @@ const App = (): JSX.Element => {
   const [lng, setLng] = useState<number>(-70.9);
   const [lat, setLat] = useState<number>(42.35);
   const [zoom, setZoom] = useState<number>(9);
+  const [maploaded, setMapLoaded] = useState<boolean>(false);
+  const mapContainer = useRef<HTMLElement>(null);
 
   useEffect(() => {
     mapboxgl.accessToken =
       'pk.eyJ1IjoibmF3aWRzdGVlbmh1aXMiLCJhIjoiY2tpdWMybW9tMDl6djJ0bno3bDFybWdjdiJ9.bsWX-lNARk_IS2MnQ8J78g';
     const map = new mapboxgl.Map({
-      container: 'mapContainer',
+      container: mapContainer.current as HTMLElement,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [lng, lat],
       zoom
@@ -25,15 +27,22 @@ const App = (): JSX.Element => {
       setZoom((map.getZoom().toFixed(2) as unknown) as number);
     });
 
+    setMapLoaded(true);
+
     return () => map.remove();
   }, []);
 
   return (
     <div>
-      <div className="sidebar">
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-      </div>
-      <div className="map-container" id="mapContainer" />
+      {maploaded && (
+        <div id="lng-lat-col" className="sidebar">
+          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+        </div>
+      )}
+      <section
+        className="map-container"
+        ref={(mapContainer as unknown) as LegacyRef<HTMLElement>}
+      />
     </div>
   );
 };
