@@ -1,12 +1,14 @@
 # Getting Started with this template
 
-This is an example for successfully using the latest version of mapbox (V2.2.0) with Create React App.
+This repo is meant to demonstrate the problems we're having with Mapbox (V2.2.0) with Create React App.
 For the creation of this project, [this](https://github.com/brdv/react-ts-template) template had been used.
 
 - Basic CRA features (link)
 - ESLint with [Airbnb Javascript style](https://github.com/airbnb/javascript)
 - Prettier enforcing the eslint rulse
 - Various other scripts
+
+#
 
 ## Available Scripts
 
