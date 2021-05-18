@@ -13,6 +13,8 @@
     "cleanup": "rm -rf node_modules"
   },
   "dependencies": {
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^13.0.16",
     "@craco/craco": "^6.1.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@types/jest": "^26.0.15",
@@ -28,8 +30,6 @@
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^13.0.16",
     "@types/mapbox-gl": "^2.1.1",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",

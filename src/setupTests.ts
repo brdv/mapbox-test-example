@@ -6,10 +6,14 @@ import '@testing-library/jest-dom';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 
+export const mockMapOn = jest.fn();
+export const mockMapRemove = jest.fn();
+
 jest.mock('mapbox-gl', () => ({
-  Map: jest.fn(() => ({
-    on: jest.fn()
-  }))
+  Map() {
+    this.on = mockMapOn;
+    this.remove = mockMapRemove;
+  }
 }));
 
 export default undefined;

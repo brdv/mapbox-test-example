@@ -72,7 +72,8 @@
         "ImportDeclaration": "never",
         "ExportDeclaration": { "multiline": true, "minProperties": 3 }
       }
-    ]
+    ],
+    "react/button-has-type": "off"
   },
   "settings": {
     "import/resolver": {
